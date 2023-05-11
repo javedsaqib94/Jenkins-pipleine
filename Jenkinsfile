@@ -49,7 +49,7 @@ pipeline {
                 success {
                     echo "Email sent to your email address for more detail on that production"
                     
-                    //  email is aligined with the pipline..
+                    //  email is aligined with the pipline...
                     mail to: "javed.saqib94@gmail.com",
                     subject: "tesingpipline",
                     body: "executed in this directory path: ${env.DIRECTORY_PATH}, testing envrionment of: ${env.TESTING_ENVIRONMENT}, with production envionment of: ${env.PRODUCTION_ENVIRONMENT}"
