@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        // DIRECTORY_PATH = "C:/ProgramData/Jenkins/.jenkins/workspace/testngpipeline" 
+        DIRECTORY_PATH = "C:/ProgramData/Jenkins/.jenkins/workspace/testngpipeline" 
         TESTING_ENVIRONMENT = "testenv" 
         PRODUCTION_ENVIRONMENT = "Prodenv"
 
@@ -48,10 +48,11 @@ pipeline {
             post {
                 success {
                     echo "Email sent to your email address for more detail on that production"
+                    
                     //  email is aligined with the pipline 
-                    mailto: "javed.saqib94@gmail.com",
+                    mail to: "javed.saqib94@gmail.com",
                     subject: "tesingpipline",
-                    body: "executed in this directory path: GitHub , testing envrionment of: ${env.TESTING_ENVIRONMENT}, with production envionment of: ${env.PRODUCTION_ENVIRONMENT}"
+                    body: "executed in this directory path: ${env.DIRECTORY_PATH}, testing envrionment of: ${env.TESTING_ENVIRONMENT}, with production envionment of: ${env.PRODUCTION_ENVIRONMENT}"
             
                 }
             }
