@@ -56,22 +56,25 @@ pipeline {
                     }
                 }
         }
-        stage('Download') {
-            steps {
-                bat 'echo "artifact file" > generatedFile.txt'
+         stage('Download') {
+            steps{
+               bat "del test.zip"
+               zip zipFile: 'test.zip', archive: false, dir: 'directory pattern as per your structure'
             }
         }
-    }     
-            post {
-                 always {
-                     archiveArtifacts artifacts: 'generatedFile.txt', onlyIfSuccessful: true
-                     echo 'I will always say Hello again!'
-                     emailext attachLog: true, attachmentsPattern: 'generatedFile.txt',
-                     body: "${currentBuild.currentResult}: Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}\n More info at: ${env.BUILD_URL}",
-                     recipientProviders: [developers(), requestor()],
-                     subject: "Jenkins Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}"
-                    }
-             }
+    }
+           post {
+             failure {
+                  emailext attachmentsPattern: 'test.zip', body: '''${SCRIPT, template="groovy-html.template"}''', 
+                          subject: "${env.JOB_NAME} - Build # ${env.BUILD_NUMBER} - Failed", 
+                          mimeType: 'text/html',to: "email id"
+            }
+              success {
+                  emailext attachmentsPattern: 'test.zip', body: '''${SCRIPT, template="groovy-html.template"}''', 
+                        subject: "${env.JOB_NAME} - Build # ${env.BUILD_NUMBER} - Successful", 
+                         mimeType: 'text/html',to: "email id"
+          }      
+    }
     
 
 }
