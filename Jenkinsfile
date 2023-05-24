@@ -60,8 +60,7 @@ pipeline {
         stage('Download') {
             steps {
                 sh 'echo "artifact file" > generatedFile.txt'
-            }
-        }
+             }
             post {
                  always {
                      archiveArtifacts artifacts: 'generatedFile.txt', onlyIfSuccessful: true
@@ -73,10 +72,11 @@ pipeline {
                      recipientProviders: [developers(), requestor()],
                      subject: "Jenkins Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}"
             
-            }
+                    }
         
-        }
-    
+                 }
+        }        
+
     }
 
 }
