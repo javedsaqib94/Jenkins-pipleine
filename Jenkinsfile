@@ -45,39 +45,27 @@ pipeline {
             steps {
                 echo "executed in this directory path: ${env.DIRECTORY_PATH}, testing envrionment of: ${env.TESTING_ENVIRONMENT}, with production envionment of: ${env.PRODUCTION_ENVIRONMENT}"
             }
+        }
+    }
             post {
                 success {
                     echo "Email sent to your email address for more detail on that production"
                     
                     //  email is aligined with the pipline... . .
                    // mail to: "javed.saqib94@gmail.com",
-                    email to: "javed.saqib94@gmail.com", 
-                        //emailext attachlog: true,
-                    subject: "tesingpipline",
-                    body: "executed in this directory path: ${env.DIRECTORY_PATH}, testing envrionment of: ${env.TESTING_ENVIRONMENT}, with production envionment of: ${env.PRODUCTION_ENVIRONMENT}"
-                    }
-                }
-        }
-        stage('Download') {
-            steps {
-                 sh ' sh \'echo "artifact file" > generatedFile.txt\''
+                  emailext attachLog: true, body: 'Email sent out from jenkins', subject: 'testing pipeline - Success with logs', to: 'javed.saqib94@gmail.com' 
+                
+                     }
+                failure {
+                    echo "Email sent to your email address for more detail on that production"
+                    
+                    //  email is aligined with the pipline... . .
+                   // mail to: "javed.saqib94@gmail.com",
+                  emailext attachLog: true, body: 'Email sent out from jenkins', subject: 'testing pipeline - failed with logs', to: 'javed.saqib94@gmail.com' 
+                
+                     }
              }
-        }
-    }
-            post {
-                 always {
-                     archiveArtifacts artifacts: 'generatedFile.txt', onlyIfSuccessful: true
+          
             
-                     echo 'I will always say Hello again!'
-
-                     emailext attachLog: true, attachmentsPattern: 'generatedFile.txt',
-                     body: "${currentBuild.currentResult}: Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}\n More info at: ${env.BUILD_URL}",
-                     recipientProviders: [developers(), requestor()],
-                     subject: "Jenkins Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}"
-            
-                    }
-        
-             }
-    
 
 }
