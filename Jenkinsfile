@@ -50,7 +50,9 @@ pipeline {
                     echo "Email sent to your email address for more detail on that production"
                     
                     //  email is aligined with the pipline... . .
-                    mail to: "javed.saqib94@gmail.com",
+                   // mail to: "javed.saqib94@gmail.com",
+                    emailext to: "javed.saqib94@gmail.com",
+                    emailext attachlog: true,
                     subject: "tesingpipline",
                     body: "executed in this directory path: ${env.DIRECTORY_PATH}, testing envrionment of: ${env.TESTING_ENVIRONMENT}, with production envionment of: ${env.PRODUCTION_ENVIRONMENT}"
                     }
@@ -58,7 +60,7 @@ pipeline {
         }
         stage('Download') {
             steps {
-                sh 'echo "artifact file" > generatedFile.txt'
+                  echo "artifact file" > generatedFile.txt'
              }
         }
     }
@@ -69,7 +71,8 @@ pipeline {
                      echo 'I will always say Hello again!'
 
                      emailext attachLog: true, attachmentsPattern: 'generatedFile.txt',
-                     body: "${currentBuild.currentResult}: Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}\n More info at: ${env.BUILD_URL}",
+                     body: "${currentBuild.currentResult}: Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}
+                     \n More info at: ${env.BUILD_URL}",
                      recipientProviders: [developers(), requestor()],
                      subject: "Jenkins Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}"
             
