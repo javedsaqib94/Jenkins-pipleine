@@ -51,7 +51,8 @@ pipeline {
                     
                     //  email is aligined with the pipline... . .
                    // mail to: "javed.saqib94@gmail.com",
-                    emailext to: "javed.saqib94@gmail.com", emailext attachlog: true,
+                    email to: "javed.saqib94@gmail.com", 
+                        //emailext attachlog: true,
                     subject: "tesingpipline",
                     body: "executed in this directory path: ${env.DIRECTORY_PATH}, testing envrionment of: ${env.TESTING_ENVIRONMENT}, with production envionment of: ${env.PRODUCTION_ENVIRONMENT}"
                     }
@@ -59,7 +60,7 @@ pipeline {
         }
         stage('Download') {
             steps {
-                 bat  'echo "artifact file" > generatedFile.txt'
+                 sh ' sh \'echo "artifact file" > generatedFile.txt\''
              }
         }
     }
